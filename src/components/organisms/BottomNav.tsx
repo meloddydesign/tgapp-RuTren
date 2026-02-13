@@ -2,12 +2,12 @@ import { type ComponentProps } from 'react';
 import { cn } from '@/utils/cn';
 import { GlassCard } from '../atoms/GlassCard';
 import { TabItem } from '../molecules/TabItem';
-import { Home, Activity, Trophy, Settings } from 'lucide-react';
+import { Home, User, Dumbbell, BookOpen } from 'lucide-react';
 import styles from './BottomNav.module.css';
 
 type BottomNavProps = {
-    activeTab?: 'home' | 'train' | 'goals' | 'settings';
-    onTabChange?: (tab: 'home' | 'train' | 'goals' | 'settings') => void;
+    activeTab?: 'home' | 'train' | 'exercises' | 'settings';
+    onTabChange?: (tab: 'home' | 'train' | 'exercises' | 'settings') => void;
 } & Omit<ComponentProps<typeof GlassCard>, 'children'>;
 
 export function BottomNav({ activeTab = 'home', onTabChange, className, ...props }: BottomNavProps) {
@@ -24,17 +24,17 @@ export function BottomNav({ activeTab = 'home', onTabChange, className, ...props
                 onClick={() => onTabChange?.('home')}
             />
             <TabItem
-                icon={Activity}
+                icon={Dumbbell}
                 isActive={activeTab === 'train'}
                 onClick={() => onTabChange?.('train')}
             />
             <TabItem
-                icon={Trophy}
-                isActive={activeTab === 'goals'}
-                onClick={() => onTabChange?.('goals')}
+                icon={BookOpen}
+                isActive={activeTab === 'exercises'}
+                onClick={() => onTabChange?.('exercises')}
             />
             <TabItem
-                icon={Settings}
+                icon={User}
                 isActive={activeTab === 'settings'}
                 onClick={() => onTabChange?.('settings')}
             />

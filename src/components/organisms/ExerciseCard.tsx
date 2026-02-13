@@ -1,49 +1,58 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { GlassCard } from '../atoms/GlassCard';
 import { Text, SectionTitle, Caption } from '../atoms/Typography';
 import { Button } from '../atoms/Button';
-import { ChevronDown, ChevronUp, MoreHorizontal, Play, Plus } from 'lucide-react';
-import { cn } from '@/utils/cn';
+import { ChevronDown, ChevronUp, Plus } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { SetRow } from '../molecules/SetRow';
+import { cn } from '@/utils/cn';
 import styles from './ExerciseCard.module.css';
+import type { WorkoutSet } from '@/types';
 
 type ExerciseCardProps = {
     title: string;
     subtitle?: string;
     sets?: number;
     reps?: string;
+    index?: number;
+    initialSets?: WorkoutSet[];
+    isReadonly?: boolean;
+    onSetsChange?: (sets: WorkoutSet[]) => void;
 }
 
-type SetData = {
-    id: number;
-    weight: string;
-    reps: string;
-    isCompleted: boolean;
-};
 
-export function ExerciseCard({ title, subtitle, sets: initialSetsCount = 3, reps = "12" }: ExerciseCardProps) {
+export function ExerciseCard({ title, subtitle, sets: initialSetsCount = 3, reps = "12", index, initialSets, isReadonly, onSetsChange }: ExerciseCardProps) {
     const [isExpanded, setIsExpanded] = useState(false);
 
-    // Initialize sets with unique IDs
-    const [sets, setSets] = useState<SetData[]>(
-        Array.from({ length: initialSetsCount }).map((_, i) => ({
-            id: Date.now() + i,
-            weight: '50',
+    // Инициализация сетов
+    const [sets, setSets] = useState<WorkoutSet[]>(() => {
+        if (initialSets && initialSets.length > 0) {
+            return initialSets;
+        }
+        return Array.from({ length: initialSetsCount }).map((_, i) => ({
+            id: `${Date.now()}-${i}`,
+            weight: '0',
             reps: reps.replace(/\D/g, '') || '12',
             isCompleted: false
-        }))
-    );
+        }));
+    });
 
-    const handleUpdateSet = (id: number, field: keyof SetData, value: string | boolean) => {
+    const isExerciseCompleted = sets.length > 0 && sets.every(s => s.isCompleted);
+
+    // Оповещаем родителя об изменениях
+    useEffect(() => {
+        onSetsChange?.(sets);
+    }, [sets]); // eslint-disable-line react-hooks/exhaustive-deps
+
+    const handleUpdateSet = (id: string, field: keyof WorkoutSet, value: string | boolean) => {
         setSets(prev => prev.map(s => s.id === id ? { ...s, [field]: value } : s));
     };
 
     const handleAddSet = (e: React.MouseEvent) => {
-        e.stopPropagation(); // Prevent card toggle
+        e.stopPropagation();
         const lastSet = sets[sets.length - 1];
-        const newSet: SetData = {
-            id: Date.now(),
+        const newSet: WorkoutSet = {
+            id: Date.now().toString(),
             weight: lastSet ? lastSet.weight : '0',
             reps: lastSet ? lastSet.reps : '0',
             isCompleted: false
@@ -51,16 +60,23 @@ export function ExerciseCard({ title, subtitle, sets: initialSetsCount = 3, reps
         setSets([...sets, newSet]);
     };
 
-    const handleDeleteSet = (id: number) => {
+    const handleDeleteSet = (id: string) => {
         setSets(prev => prev.filter(s => s.id !== id));
     };
 
     return (
         <GlassCard className={styles.card} noPadding>
             <div className={styles.header} onClick={() => setIsExpanded(!isExpanded)}>
-                <div className={styles.info}>
-                    <SectionTitle className={styles.title}>{title}</SectionTitle>
-                    {subtitle && <Caption>{subtitle}</Caption>}
+                <div className={styles.infoContainer}>
+                    {index !== undefined && (
+                        <div className={cn(styles.indexBadge, isExerciseCompleted && styles.completedBadge)}>
+                            {index}
+                        </div>
+                    )}
+                    <div className={styles.info}>
+                        <SectionTitle className={styles.title}>{title}</SectionTitle>
+                        {subtitle && <Caption>{subtitle}</Caption>}
+                    </div>
                 </div>
                 <div className={styles.actions}>
                     <div className={styles.meta}>
@@ -94,28 +110,25 @@ export function ExerciseCard({ title, subtitle, sets: initialSetsCount = 3, reps
                                             weight={set.weight}
                                             reps={set.reps}
                                             isCompleted={set.isCompleted}
-                                            onDelete={() => handleDeleteSet(set.id)}
-                                            onUpdate={(field, value) => handleUpdateSet(set.id, field as any, value)}
+                                            onDelete={isReadonly ? undefined : () => handleDeleteSet(set.id)}
+                                            onUpdate={isReadonly ? undefined : (field, value) => handleUpdateSet(set.id, field as keyof WorkoutSet, value)}
                                         />
                                     </motion.div>
                                 ))}
                             </AnimatePresence>
                         </div>
 
-                        <div className={styles.footer}>
-                            <div className={styles.footerLeft}>
-                                <Button variant="ghost" size="sm" onClick={handleAddSet}>
-                                    <Plus size={20} />
-                                </Button>
-                                <Button variant="ghost" size="sm">
-                                    <MoreHorizontal size={20} />
+                        {!isReadonly && (
+                            <div className={styles.footer}>
+                                <Button
+                                    variant="ghost"
+                                    className={styles.addSetBtn}
+                                    onClick={handleAddSet}
+                                >
+                                    <Plus size={16} /> Добавить подход
                                 </Button>
                             </div>
-
-                            <Button variant="primary" size="sm" className={styles.startBtn}>
-                                <Play size={16} fill="currentColor" /> Старт
-                            </Button>
-                        </div>
+                        )}
                     </motion.div>
                 )}
             </AnimatePresence>

@@ -11,28 +11,43 @@ type HeaderProps = {
     showBack?: boolean;
     onBack?: () => void;
     action?: ReactNode;
+    avatar?: ReactNode; // New prop
+    centered?: boolean;
 } & ComponentProps<'header'>;
 
-export function Header({ title, subtitle, showBack, onBack, action, className, ...props }: HeaderProps) {
+export function Header({ title, subtitle, showBack, onBack, action, avatar, centered, className, ...props }: HeaderProps) {
     return (
-        <header className={cn(styles.header, className)} {...props}>
-            <div className={styles.left}>
+        <header className={cn(styles.header, centered && styles.centered, className)} {...props}>
+            {/* Left Slot: Back Button or Avatar */}
+            <div className={styles.leftSlot}>
                 {showBack && (
                     <Button variant="ghost" className={styles.backButton} onClick={onBack}>
                         <ChevronLeft size={24} />
                     </Button>
                 )}
+                {avatar && (
+                    <div className={styles.avatarContainer}>
+                        {avatar}
+                    </div>
+                )}
+            </div>
+
+            {/* Center Slot: Title */}
+            <div className={styles.centerSlot}>
                 <div className={styles.titleContainer}>
                     <PageTitle className={styles.title}>{title}</PageTitle>
                     {subtitle && <span className={styles.subtitle}>{subtitle}</span>}
                 </div>
             </div>
 
-            {action && (
-                <div className={styles.action}>
-                    {action}
-                </div>
-            )}
+            {/* Right Slot: Action */}
+            <div className={styles.rightSlot}>
+                {action && (
+                    <div className={styles.action}>
+                        {action}
+                    </div>
+                )}
+            </div>
         </header>
     );
 }

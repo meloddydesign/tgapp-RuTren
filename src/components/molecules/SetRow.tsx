@@ -10,15 +10,16 @@ type SetRowProps = {
     weight: string;
     reps: string;
     isCompleted: boolean;
-    onDelete: () => void;
-    onUpdate: (field: 'weight' | 'reps' | 'isCompleted', value: string | boolean) => void;
+    onDelete?: () => void;
+    onUpdate?: (field: 'weight' | 'reps' | 'isCompleted', value: string | boolean) => void;
+    showCheckbox?: boolean;
 }
 
-export function SetRow({ setNumber, weight, reps, isCompleted, onDelete, onUpdate }: SetRowProps) {
+export function SetRow({ setNumber, weight, reps, isCompleted, onDelete, onUpdate, showCheckbox = true }: SetRowProps) {
     const controls = useAnimation();
 
     const handleDragEnd = async (_: any, info: PanInfo) => {
-        if (info.offset.x < -80) {
+        if (info.offset.x < -80 && onDelete) {
             await controls.start({ x: -100, opacity: 0 });
             onDelete();
         } else {
@@ -59,7 +60,8 @@ export function SetRow({ setNumber, weight, reps, isCompleted, onDelete, onUpdat
                         <input
                             type="tel"
                             value={weight}
-                            onChange={(e) => onUpdate('weight', e.target.value)}
+                            onChange={(e) => onUpdate?.('weight', e.target.value)}
+                            readOnly={!onUpdate}
                             className={styles.input}
                             placeholder="0"
                         />
@@ -72,7 +74,8 @@ export function SetRow({ setNumber, weight, reps, isCompleted, onDelete, onUpdat
                         <input
                             type="tel"
                             value={reps}
-                            onChange={(e) => onUpdate('reps', e.target.value)}
+                            onChange={(e) => onUpdate?.('reps', e.target.value)}
+                            readOnly={!onUpdate}
                             className={styles.input}
                             placeholder="0"
                         />
@@ -81,15 +84,17 @@ export function SetRow({ setNumber, weight, reps, isCompleted, onDelete, onUpdat
                 </div>
 
                 {/* Checkbox - Stop propagation */}
-                <div
-                    className={styles.checkboxContainer}
-                    onPointerDown={(e) => e.stopPropagation()}
-                >
-                    <Checkbox
-                        checked={isCompleted}
-                        onCheckedChange={(checked) => onUpdate('isCompleted', checked)}
-                    />
-                </div>
+                {showCheckbox && (
+                    <div
+                        className={styles.checkboxContainer}
+                        onPointerDown={(e) => e.stopPropagation()}
+                    >
+                        <Checkbox
+                            checked={isCompleted}
+                            onCheckedChange={(checked) => onUpdate?.('isCompleted', checked)}
+                        />
+                    </div>
+                )}
             </motion.div>
         </div>
     );

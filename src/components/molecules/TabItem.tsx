@@ -1,4 +1,4 @@
-import { type ComponentProps, type ElementType } from 'react';
+import { type ComponentProps } from 'react';
 import { cn } from '@/utils/cn';
 import { Icon } from '../atoms/Icon';
 import { Text } from '../atoms/Typography';

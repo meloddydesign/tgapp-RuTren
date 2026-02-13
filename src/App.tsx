@@ -1,140 +1,116 @@
-import { useState } from 'react';
-import { Button } from './components/atoms/Button';
-import { GlassCard } from './components/atoms/GlassCard';
-import { Checkbox } from './components/atoms/Checkbox';
-import { Switch } from './components/atoms/Switch';
-import { SectionTitle, Text, Caption } from './components/atoms/Typography'; // Added Caption
-import { Activity, Flame } from 'lucide-react';
-import { FormInput } from './components/molecules/FormInput';
-import { SearchInput } from './components/molecules/SearchInput';
-import { StatCard } from './components/molecules/StatCard';
-import { GoalCard } from './components/molecules/GoalCard';
-import { SectionHeader } from './components/molecules/SectionHeader';
-import { DayItem } from './components/molecules/DayItem'; // Kept for example
-import { RestTimerCircle } from './components/molecules/RestTimerCircle';
-import { Header } from './components/organisms/Header';
-import { BottomNav } from './components/organisms/BottomNav';
-import { WeeklyCalendarWidget } from './components/organisms/WeeklyCalendarWidget';
-import { ExerciseCard } from './components/organisms/ExerciseCard';
-import { WeightChart } from './components/molecules/WeightChart';
-import styles from './App.module.css';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { PageLayout } from './components/templates/PageLayout';
+import { DashboardPage } from './components/pages/Dashboard';
+import { Workout } from './components/pages/Workout';
+import { WorkoutSummary } from './components/pages/WorkoutSummary';
+import { Profile } from './components/pages/Profile';
+import { PersonalData } from './components/pages/PersonalData';
+import { Measurements } from './components/pages/Measurements';
+import { Settings } from './components/pages/Settings';
+import { Onboarding } from './components/pages/Onboarding';
+import { Habits } from './components/pages/Habits';
+import { Analytics } from './components/pages/Analytics';
+import { Achievements } from './components/pages/Achievements';
+import { Workouts } from './components/pages/Workouts/Workouts';
+import { CreateWorkout } from './components/pages/Workouts/CreateWorkout';
+import { EditWorkout } from './components/pages/Workouts/EditWorkout';
+import { ExercisesPage } from './components/pages/Exercises';
+import { ExerciseDetails } from './components/pages/ExerciseDetails';
+import { History } from './components/pages/History';
+import { HistoryDetail } from './components/pages/HistoryDetail';
+import { ToastProvider } from './components/atoms/Toast';
+import { useUserStore } from './stores/useUserStore';
 
-function App() {
-  const [switched, setSwitched] = useState(false);
-  const [checked, setChecked] = useState(false);
-  const [activeTab, setActiveTab] = useState<'home' | 'train' | 'goals' | 'settings'>('home');
+// Анимация переходов между страницами
+const pageVariants = {
+  initial: { opacity: 0, y: 8 },
+  animate: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: -8 },
+};
+
+const pageTransition = {
+  type: 'tween' as const,
+  ease: 'easeInOut' as const,
+  duration: 0.2,
+};
+
+function AnimatedRoutes() {
+  const location = useLocation();
 
   return (
-    <div className={styles.container}>
-      {/* Global Header */}
-      <Header
-        title="RuTren UI Kit v0.4.1"
-        subtitle="Библиотека Компонентов"
-      />
+    <AnimatePresence mode="wait">
+      <motion.div
+        key={location.pathname}
+        variants={pageVariants}
+        initial="initial"
+        animate="animate"
+        exit="exit"
+        transition={pageTransition}
+        style={{ flex: 1, display: 'flex', flexDirection: 'column' as const }}
+      >
+        <Routes location={location}>
+          {/* Редирект с корня на дашборд */}
+          <Route path="/" element={<Navigate to="/dashboard" replace />} />
 
-      {/* --- ATOMS --- */}
-      <section className={styles.section}>
-        <SectionTitle>1. Атомы (Atoms)</SectionTitle>
-        <Text className={styles.headerSubtitle}>Базовые кирпичики интерфейса</Text>
+          <Route path="/dashboard" element={<DashboardPage />} />
 
-        <GlassCard contentClassName={styles.cardContentCol}>
-          <Caption>Buttons</Caption>
-          <div className={styles.buttonGroup}>
-            <Button variant="primary">Primary</Button>
-            <Button variant="ghost">Ghost</Button>
-            <Button variant="outline">Outline</Button>
-            <Button variant="primary" size="sm">Small</Button>
-          </div>
+          {/* Тренировки */}
+          <Route path="/workouts" element={<Workouts />} />
+          <Route path="/workouts/create" element={<CreateWorkout />} />
+          <Route path="/workouts/:id/edit" element={<EditWorkout />} />
+          <Route path="/workout/:id" element={<Workout />} />
+          <Route path="/workout/summary" element={<WorkoutSummary />} />
 
-          <Caption>Controls</Caption>
-          <div className={styles.inputGroup}>
-            <Switch checked={switched} onCheckedChange={setSwitched} />
-            <label className={styles.checkboxLabel}>
-              <Checkbox checked={checked} onCheckedChange={setChecked} />
-              <Text>Checkbox</Text>
-            </label>
-          </div>
-        </GlassCard>
-      </section>
+          {/* История */}
+          <Route path="/history" element={<History />} />
+          <Route path="/history/:id" element={<HistoryDetail />} />
 
-      {/* --- MOLECULES --- */}
-      <section className={styles.section}>
-        <SectionTitle>2. Молекулы (Molecules)</SectionTitle>
-        <Text className={styles.headerSubtitle}>Составные элементы</Text>
+          {/* Упражнения */}
+          <Route path="/exercises" element={<ExercisesPage />} />
+          <Route path="/exercises/:id" element={<ExerciseDetails />} />
 
-        <section>
-          <SectionHeader title="Inputs & Forms" />
-          <GlassCard contentClassName={styles.cardContentCol}>
-            <FormInput label="Email" placeholder="example@mail.com" />
-            <FormInput label="Error State" placeholder="Wrong input" error="Ошибка валидации" />
-            <SearchInput placeholder="Поиск..." />
-          </GlassCard>
-        </section>
+          {/* Профиль */}
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/profile/personal-data" element={<PersonalData />} />
+          <Route path="/profile/measurements" element={<Measurements />} />
+          <Route path="/profile/habits" element={<Habits />} />
+          <Route path="/profile/achievements" element={<Achievements />} />
 
-        <section>
-          <SectionHeader title="Cards" />
-          <div className={styles.statsRow}>
-            <StatCard label="Тренировки" value="12" icon={<Activity size={16} />} trend={{ value: 15, isPositive: true }} />
-            <StatCard label="Калории" value="8400" icon={<Flame size={16} />} trend={{ value: 5, isPositive: false }} />
-          </div>
-          <div style={{ marginTop: 12 }}>
-            <GoalCard title="Недельная цель" progress={60} current="3" target="5" />
-          </div>
-        </section>
+          {/* Прочее */}
+          <Route path="/analytics" element={<Analytics />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/onboarding" element={<Onboarding />} />
 
-        <section>
-          <SectionHeader title="Interactive" />
-          <div className={styles.timerContainer}>
-            <RestTimerCircle secondsRemaining={30} totalSeconds={60} isActive={true} />
-          </div>
-        </section>
-      </section>
-
-      {/* --- ORGANISMS --- */}
-      <section className={styles.section}>
-        <SectionTitle>3. Организмы (Organisms)</SectionTitle>
-        <Text className={styles.headerSubtitle}>Сложные самостоятельные блоки</Text>
-
-        <GlassCard contentClassName={styles.cardContentCol}>
-          <Caption>Header (Global)</Caption>
-          <div style={{ border: '1px dashed rgba(255,255,255,0.2)', borderRadius: 12 }}>
-            <Header title="Заголовок" subtitle="Подзаголовок страницы" showBack onBack={() => { }} />
-          </div>
-        </GlassCard>
-
-        <div className={styles.cardContentCol}>
-          <Caption>Weekly Calendar Widget</Caption>
-          <WeeklyCalendarWidget />
-        </div>
-
-        <div className={styles.cardContentCol}>
-          <Caption>Exercise Card (Expandable)</Caption>
-          <ExerciseCard title="Жим лежа" sets={4} reps="8-10" />
-          <ExerciseCard title="Приседания" sets={3} reps="12" subtitle="Акцент на квадрицепс" />
-        </div>
-
-        <div className={styles.cardContentCol}>
-          <Caption>Weight History Chart</Caption>
-          <WeightChart
-            data={[
-              { label: '09', value: 72 },
-              { label: '10', value: 83 },
-              { label: '11', value: 79 },
-              { label: '12', value: 94 },
-              { label: '13', value: 91 },
-              { label: '14', value: 88 }
-            ]}
-          />
-        </div>
-      </section>
-
-      {/* Spacer used to prevent content from being hidden behind BottomNav */}
-      <div style={{ height: 100 }} />
-
-      {/* Global Bottom Navigation */}
-      <BottomNav activeTab={activeTab} onTabChange={setActiveTab} />
-    </div>
-  )
+          {/* Fallback */}
+          <Route path="*" element={<Navigate to="/dashboard" replace />} />
+        </Routes>
+      </motion.div>
+    </AnimatePresence>
+  );
 }
 
-export default App
+function App() {
+  const { user } = useUserStore();
+
+  useEffect(() => {
+    if (user.settings.darkTheme) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [user.settings.darkTheme]);
+
+  return (
+    <BrowserRouter>
+      <ToastProvider>
+        <PageLayout>
+          <AnimatedRoutes />
+        </PageLayout>
+      </ToastProvider>
+    </BrowserRouter>
+  );
+}
+
+export default App;

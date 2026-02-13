@@ -1,33 +1,48 @@
-import { type ReactNode } from 'react';
+import type { ReactNode } from 'react';
+import { cn } from '@/utils/cn';
 import { GlassCard } from '../atoms/GlassCard';
 import { Text, Caption } from '../atoms/Typography';
-import { cn } from '@/utils/cn';
 import styles from './StatCard.module.css';
 
-interface StatCardProps {
+type Trend = {
+    value: number;
+    isPositive: boolean;
+};
+
+type StatCardProps = {
     label: string;
     value: string | number;
-    icon?: ReactNode;
-    trend?: {
-        value: number;
-        isPositive: boolean;
-    };
+    unit?: string;
+    icon: ReactNode;
+    trend?: Trend;
     className?: string;
-}
+    variant?: 'horizontal' | 'vertical'; // Added variant
+};
 
-export function StatCard({ label, value, icon, trend, className }: StatCardProps) {
+export function StatCard({ label, value, unit, icon, trend, className, variant = 'horizontal' }: StatCardProps) {
     return (
-        <GlassCard className={cn(styles.card, className)} contentClassName={styles.content}>
-            <div className={styles.header}>
-                <Caption className={styles.label}>{label}</Caption>
-                {icon && <div className={styles.icon}>{icon}</div>}
+        <GlassCard
+            className={cn(
+                styles.card,
+                variant === 'vertical' && styles.vertical,
+                className
+            )}
+            noPadding
+        >
+            <div className={styles.iconContainer}>
+                {icon}
             </div>
 
-            <div className={styles.body}>
-                <Text className={styles.value}>{value}</Text>
+            <div className={styles.content}>
+                <Caption className={styles.label}>{label}</Caption>
+                <div className={styles.valueContainer}>
+                    <Text className={styles.value}>{value}</Text>
+                    {unit && <span className={styles.unit}>{unit}</span>}
+                </div>
+
                 {trend && (
                     <div className={cn(styles.trend, trend.isPositive ? styles.positive : styles.negative)}>
-                        {trend.isPositive ? '+' : ''}{trend.value}%
+                        {trend.isPositive ? '↑' : '↓'} {trend.value}%
                     </div>
                 )}
             </div>

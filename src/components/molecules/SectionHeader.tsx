@@ -1,4 +1,4 @@
-import { SectionTitle as Title, Text } from '../atoms/Typography';
+import { SectionTitle as Title } from '../atoms/Typography';
 import { Button } from '../atoms/Button';
 import { cn } from '@/utils/cn';
 import styles from './SectionHeader.module.css';

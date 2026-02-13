@@ -10,6 +10,34 @@
     cursor: pointer;
 }
 
+.infoContainer {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.indexBadge {
+    width: 28px;
+    height: 28px;
+    background: rgba(255, 255, 255, 0.1);
+    /* Neutral default */
+    color: var(--text-primary);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 14px;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+}
+
+.completedBadge {
+    background: var(--color-accent);
+    color: #000;
+    font-weight: 700;
+}
+
 .info {
     display: flex;
     flex-direction: column;
@@ -30,6 +58,8 @@
     background: rgba(255, 255, 255, 0.05);
     padding: 4px 10px;
     border-radius: 8px;
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
 .metaText {
@@ -47,13 +77,19 @@
 .content {
     background: rgba(0, 0, 0, 0.2);
     border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 0 10px;
+    /* Added side padding as requested */
 }
 
 .setList {
-    padding: 16px 20px;
+    padding: 0;
+    /* Remove padding as requested */
     display: flex;
     flex-direction: column;
     gap: 12px;
+    /* Ensure gap allows spacing between items */
+    margin-top: 12px;
+    /* Add some top spacing if needed so first item doesn't hit header directly? User said "remove padding but give elements spacing". */
 }
 
 .setRow {
@@ -95,17 +131,20 @@
 .footer {
     padding: 12px 20px;
     border-top: 1px solid rgba(255, 255, 255, 0.05);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
 }
 
-.footerLeft {
-    display: flex;
+.addSetBtn {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.05);
+    /* Match input color */
+    color: var(--text-secondary);
+    justify-content: center;
+    border-radius: 12px;
+    height: 44px;
     gap: 8px;
+    font-weight: 500;
 }
 
-.startBtn {
-    gap: 8px;
-    height: 36px;
+.addSetBtn:hover {
+    background: rgba(255, 255, 255, 0.1);
 }

@@ -64,4 +64,16 @@
 
 .activeDot {
     background-color: var(--color-accent);
+    box-shadow: 0 0 8px var(--color-accent);
+}
+
+.workoutDayContainer {
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* If it is both active and workout day, merge styles */
+.activeDateContainer.workoutDayContainer {
+    border-color: var(--color-accent);
+    background: rgba(157, 255, 0, 0.15);
 }

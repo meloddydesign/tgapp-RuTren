@@ -1,4 +1,4 @@
-import { type ComponentProps, type ReactNode } from 'react';
+import { type ReactNode } from 'react';
 import { cn } from '@/utils/cn';
 import { motion, type HTMLMotionProps } from 'framer-motion';
 import { scaleTap } from '@/utils/animations';

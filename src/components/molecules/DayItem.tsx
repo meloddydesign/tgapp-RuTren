@@ -19,7 +19,11 @@ export function DayItem({ day, date, isActive, hasDot, onClick, className }: Day
             onClick={onClick}
         >
             <Caption className={cn(styles.day, isActive && styles.activeText)}>{day}</Caption>
-            <div className={cn(styles.dateContainer, isActive && styles.activeDateContainer)}>
+            <div className={cn(
+                styles.dateContainer,
+                isActive && styles.activeDateContainer,
+                hasDot && styles.workoutDayContainer
+            )}>
                 <Text className={cn(styles.date, isActive && styles.activeText)}>{date}</Text>
                 {isActive && (
                     <motion.div
@@ -29,7 +33,13 @@ export function DayItem({ day, date, isActive, hasDot, onClick, className }: Day
                     />
                 )}
             </div>
-            <div className={cn(styles.dot, (hasDot ? (isActive ? styles.activeDot : '') : styles.invisible))} />
+            {/* Dot is now optional or can be removed if the container style is enough. 
+                Let's keep it as an extra small indicator if needed, but maybe hide it if we have the container style? 
+                User asked for "mark (highlight color)", so container style is better. 
+                I will hide the dot for now to keep it clean, or keep it very subtle. 
+                Let's comment it out or remove it to rely on the container border/bg. 
+            */}
+            {/* <div className={cn(styles.dot, (hasDot ? (isActive ? styles.activeDot : '') : styles.invisible))} /> */}
         </button>
     );
 }

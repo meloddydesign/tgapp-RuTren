@@ -20,3 +20,27 @@
     border-color: var(--color-accent);
     box-shadow: 0 0 0 1px var(--color-accent);
 }
+
+.inputWrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.leftIcon {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+}
+
+.hasLeftIcon {
+    padding-left: 48px;
+}
