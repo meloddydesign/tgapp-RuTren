@@ -73,7 +73,7 @@
 }
 
 .weekDay {
-    font-size: 10px;
+    font-size: 9px;
     color: var(--text-secondary);
     text-transform: uppercase;
     margin-bottom: 8px;
@@ -87,7 +87,7 @@
     align-items: center;
     justify-content: center;
     border-radius: 12px;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 500;
     color: white;
     position: relative;
@@ -159,7 +159,7 @@
 }
 
 .legendText {
-    font-size: 12px;
+    font-size: 10px;
     color: rgba(255, 255, 255, 0.8);
     font-weight: 500;
 }

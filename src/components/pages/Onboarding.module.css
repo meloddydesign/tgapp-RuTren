@@ -48,7 +48,7 @@
 }
 
 .title {
-    font-size: 28px !important;
+    font-size: 24px !important;
     margin-bottom: 8px !important;
 }
 
@@ -124,7 +124,7 @@
 }
 
 .inputWrapper label {
-    font-size: 13px;
+    font-size: 11px;
     color: var(--text-secondary);
 }
 
@@ -133,7 +133,7 @@
     background: transparent;
     border: none;
     color: var(--text-primary);
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 600;
     outline: none;
     padding: 4px 0 0;
@@ -167,7 +167,7 @@
 
 .goalText {
     font-weight: 500;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .checkCircle {
@@ -182,6 +182,6 @@
     margin-top: 40px;
     width: 100%;
     height: 56px !important;
-    font-size: 18px !important;
+    font-size: 16px !important;
     border-radius: 20px !important;
 }

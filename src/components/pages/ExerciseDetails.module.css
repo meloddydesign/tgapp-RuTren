@@ -55,7 +55,7 @@
 }
 
 .title {
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 700;
     line-height: 1.2;
 }
@@ -73,7 +73,7 @@
     padding: 8px 12px;
     background: rgba(255, 255, 255, 0.1);
     border-radius: 10px;
-    font-size: 13px;
+    font-size: 11px;
     color: rgba(255, 255, 255, 0.9);
     font-weight: 500;
 }
@@ -92,7 +92,7 @@
 }
 
 .sectionTitle {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 600;
     color: white;
 }
@@ -100,7 +100,7 @@
 .description {
     color: rgba(255, 255, 255, 0.7);
     line-height: 1.6;
-    font-size: 15px;
+    font-size: 13px;
 }
 
 /* Steps List */
@@ -121,7 +121,7 @@
     border-radius: 50%;
     background: #ccff00;
     color: black;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 700;
     display: flex;
     align-items: center;
@@ -134,7 +134,7 @@
 .stepText {
     color: rgba(255, 255, 255, 0.75);
     line-height: 1.5;
-    font-size: 15px;
+    font-size: 13px;
     flex: 1;
 }
 

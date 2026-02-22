@@ -18,4 +18,5 @@ export type Exercise = {
     equipment?: string;
     instructions?: string[];
     imageUrl?: string;
+    gifUrl?: string;
 };

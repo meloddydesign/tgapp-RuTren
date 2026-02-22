@@ -23,7 +23,7 @@
 
 .dateTitle {
     color: var(--text-secondary);
-    font-size: 14px;
+    font-size: 13px;
     text-transform: uppercase;
     letter-spacing: 0.05em;
 }
@@ -52,7 +52,7 @@
 }
 
 .progressText {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 700;
     color: var(--color-accent);
 }
@@ -64,14 +64,14 @@
 }
 
 .progressTitle {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 600;
     color: #fff;
 }
 
 .progressSubtitle {
     color: var(--text-secondary);
-    font-size: 13px;
+    font-size: 11px;
 }
 
 .habitsList {
@@ -155,11 +155,11 @@
 .habitName {
     font-weight: 500;
     color: #fff;
-    font-size: 15px;
+    font-size: 13px;
 }
 
 .habitStreak {
-    font-size: 12px;
+    font-size: 10px;
     color: var(--text-secondary);
     display: flex;
     align-items: center;
@@ -199,7 +199,7 @@
 .modalButton {
     height: 52px;
     border-radius: 16px;
-    font-size: 16px;
+    font-size: 14px;
     margin-top: 8px;
 }
 

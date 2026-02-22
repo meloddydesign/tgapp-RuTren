@@ -34,13 +34,13 @@
 }
 
 .title {
-    font-size: 28px;
+    font-size: 24px;
     margin-bottom: 8px;
 }
 
 .subtitle {
     color: var(--text-secondary);
-    font-size: 16px;
+    font-size: 14px;
     margin-top: -16px;
 }
 
@@ -64,7 +64,7 @@
 }
 
 .statValue {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 700;
 }
 
@@ -78,7 +78,7 @@
 .shareBtn {
     width: 100%;
     height: 56px;
-    font-size: 18px;
+    font-size: 16px;
 }
 
 .homeBtn {

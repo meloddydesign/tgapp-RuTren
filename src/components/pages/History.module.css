@@ -42,7 +42,7 @@
 
 .emptyTitle {
     font-weight: 600;
-    font-size: 18px;
+    font-size: 16px;
 }
 
 .emptyCaption {
@@ -58,7 +58,7 @@
 }
 
 .dateLabel {
-    font-size: 14px !important;
+    font-size: 13px !important;
     text-transform: uppercase;
     letter-spacing: 0.05em;
     color: var(--text-secondary) !important;
@@ -125,7 +125,7 @@
 
 .cardMeta {
     color: var(--text-secondary);
-    font-size: 13px;
+    font-size: 11px;
 }
 
 .cardRight {

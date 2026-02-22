@@ -121,20 +121,20 @@
 }
 
 .title {
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 600;
     color: white;
 }
 
 .message {
-    font-size: 13px;
+    font-size: 11px;
     color: var(--text-secondary);
     line-height: 1.4;
     margin: 0;
 }
 
 .time {
-    font-size: 11px;
+    font-size: 10px;
     color: var(--text-tertiary);
     margin-top: 2px;
 }

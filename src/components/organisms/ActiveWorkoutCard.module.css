@@ -32,7 +32,7 @@
 }
 
 .title {
-    font-size: 22px;
+    font-size: 18px;
     font-weight: 700;
     line-height: 1.1;
     color: #fff;
@@ -75,7 +75,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 13px;
+    font-size: 11px;
     opacity: 0.8;
 }
 

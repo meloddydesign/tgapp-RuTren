@@ -166,11 +166,11 @@
 
 .title {
     font-weight: 600;
-    font-size: 15px;
+    font-size: 13px;
 }
 
 .date {
-    font-size: 11px;
+    font-size: 10px;
     color: var(--text-secondary);
     background: rgba(255, 255, 255, 0.05);
     padding: 2px 6px;
@@ -178,7 +178,7 @@
 }
 
 .description {
-    font-size: 13px;
+    font-size: 11px;
     line-height: 1.4;
     color: var(--text-secondary);
 }
@@ -206,7 +206,7 @@
 }
 
 .progressText {
-    font-size: 11px;
+    font-size: 10px;
     color: var(--text-secondary);
     font-family: monospace;
 }

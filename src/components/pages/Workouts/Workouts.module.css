@@ -287,7 +287,7 @@
 .historyLabel {
     font-weight: 600;
     color: rgba(255, 255, 255, 0.5);
-    font-size: 12px;
+    font-size: 10px;
     text-transform: uppercase;
     letter-spacing: 0.05em;
 }
@@ -295,7 +295,7 @@
 /* Название в истории */
 .historyTitle {
     font-weight: 700;
-    font-size: 18px;
+    font-size: 16px;
 }
 
 /* Иконка плюса с отступом */
@@ -312,7 +312,7 @@
 
 .suggestionTitle {
     font-weight: 700;
-    font-size: 18px;
+    font-size: 16px;
 }
 
 .suggestionCaption {

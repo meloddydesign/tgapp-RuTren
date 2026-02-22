@@ -48,13 +48,13 @@
 }
 
 .time {
-    font-size: 32px;
+    font-size: 28px;
     font-weight: 700;
     line-height: 1;
 }
 
 .label {
-    font-size: 12px;
+    font-size: 10px;
     text-transform: uppercase;
     opacity: 0.7;
 }
