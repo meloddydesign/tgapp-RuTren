@@ -15,13 +15,20 @@ import { Button } from '../atoms/Button';
 import { cn } from '@/utils/cn';
 import styles from './Profile.module.css';
 import { useUserStore } from '@/stores/useUserStore';
+import { useWorkoutStore } from '@/stores/useWorkoutStore';
 
 export function Profile() {
     const navigate = useNavigate();
     const { user, logout } = useUserStore();
+    const { history } = useWorkoutStore();
     const { profile, level } = user;
 
     if (!profile) return null;
+
+    const totalWorkouts = history.length;
+    const totalHours = Math.round(history.reduce((sum, h) => sum + (h.duration || 0), 0) / 3600);
+    const totalVolume = history.reduce((sum, h) => sum + (h.totalVolume || 0), 0);
+    const volumeFormatted = totalVolume > 1000 ? `${(totalVolume / 1000).toFixed(1)}т` : `${totalVolume}кг`;
 
     return (
         <div className={styles.page}>
@@ -57,10 +64,9 @@ export function Profile() {
             </div>
 
             <div className={styles.statsGrid}>
-                {/* TODO: Connect to real stats from WorkoutStore */}
-                <StatBox value="12" label="Тренировок" />
-                <StatBox value="48" label="Часов" />
-                <StatBox value="3.5т" label="Тоннаж" />
+                <StatBox value={totalWorkouts.toString()} label="Тренировок" />
+                <StatBox value={totalHours.toString()} label="Часов" />
+                <StatBox value={volumeFormatted} label="Тоннаж" />
             </div>
 
             <div className={styles.section}>

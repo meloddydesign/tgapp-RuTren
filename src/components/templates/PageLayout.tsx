@@ -5,6 +5,7 @@ import { BottomNav } from '@/components/organisms/BottomNav';
 import { Bell } from 'lucide-react';
 import { Button } from '../atoms/Button';
 import { NotificationsModal } from '../organisms/NotificationsModal';
+import { useTelegram } from '@/hooks/useTelegram';
 import styles from './PageLayout.module.css';
 
 export function PageLayout({ children }: { children?: React.ReactNode }) {
@@ -42,10 +43,15 @@ export function PageLayout({ children }: { children?: React.ReactNode }) {
         }
     };
 
+    const { user: tgUser } = useTelegram();
+
     // Динамический заголовок в зависимости от роута
     const getHeaderTitle = () => {
         const path = location.pathname;
-        if (path.startsWith('/dashboard')) return { title: 'RuTren', subtitle: 'Привет, Даниил' };
+        if (path.startsWith('/dashboard')) return {
+            title: 'RuTren',
+            subtitle: tgUser?.first_name ? `Привет, ${tgUser.first_name}` : 'Привет, Даниил'
+        };
         if (path.startsWith('/workout')) return { title: 'Тренировка', subtitle: 'Текущая программа' };
         if (path.startsWith('/exercises')) return { title: 'Упражнения', subtitle: 'Библиотека' };
         if (path.startsWith('/profile')) return { title: 'Профиль', subtitle: 'Настройки аккаунта' };
@@ -54,10 +60,9 @@ export function PageLayout({ children }: { children?: React.ReactNode }) {
 
     const { title, subtitle } = getHeaderTitle();
 
-    // Mock Avatar and Action
     const AvatarVideo = () => (
         <img
-            src="https://github.com/shadcn.png"
+            src={tgUser?.photo_url || "https://github.com/shadcn.png"}
             alt="Avatar"
             style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />

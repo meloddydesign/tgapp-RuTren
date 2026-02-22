@@ -91,8 +91,11 @@ function AnimatedRoutes() {
   );
 }
 
+import { useTelegram } from './hooks/useTelegram';
+
 function App() {
-  const { user } = useUserStore();
+  const { user, setUser } = useUserStore();
+  const { user: tgUser, isReady } = useTelegram();
 
   useEffect(() => {
     if (user.settings.darkTheme) {
@@ -101,6 +104,21 @@ function App() {
       document.documentElement.classList.remove('dark');
     }
   }, [user.settings.darkTheme]);
+
+  useEffect(() => {
+    // Sync Telegram user data to our store
+    if (isReady && tgUser) {
+      setUser({
+        ...user,
+        id: tgUser.id.toString(),
+        profile: {
+          ...user.profile,
+          name: tgUser.first_name,
+          avatar: tgUser.photo_url || user.profile.avatar,
+        }
+      });
+    }
+  }, [isReady, tgUser?.id]);
 
   return (
     <BrowserRouter>

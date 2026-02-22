@@ -16,13 +16,18 @@ export function DashboardPage() {
     const [isCalendarOpen, setIsCalendarOpen] = useState(false);
 
     // Stores
-    const { workoutDates, activeWorkout, programs } = useWorkoutStore();
+    const { workoutDates, activeWorkout, programs, history } = useWorkoutStore();
     // const { user } = useUserStore();
 
     // Determine current active workout details
     const activeProgram = activeWorkout
         ? programs.find(p => p.id === activeWorkout.programId)
         : null;
+
+    // Calculate real stats from history
+    const totalCalories = history.reduce((sum, h) => sum + (h.calories || 0), 0);
+    const totalMinutes = history.reduce((sum, h) => sum + Math.round((h.duration || 0) / 60), 0);
+    const totalVolumeWeight = history.reduce((sum, h) => sum + (h.totalVolume || 0), 0);
 
     return (
         <div className={styles.page}>
@@ -31,22 +36,22 @@ export function DashboardPage() {
                 <StatCard
                     variant="vertical"
                     label="Ккалории"
-                    value="250"
+                    value={totalCalories.toString()}
                     unit="ккал"
                     icon={<Flame size={20} />}
                 />
                 <StatCard
                     variant="vertical"
                     label="Время"
-                    value="70"
+                    value={totalMinutes.toString()}
                     unit="минут"
                     icon={<Clock size={20} />}
-                    trend={{ value: 0, isPositive: true }}
+                    trend={history.length > 0 ? { value: 0, isPositive: true } : undefined}
                 />
                 <StatCard
                     variant="vertical"
                     label="Вес"
-                    value="2 250"
+                    value={totalVolumeWeight.toLocaleString('ru-RU')}
                     unit="кг"
                     icon={<Dumbbell size={20} />}
                 />

@@ -38,54 +38,71 @@ type UserState = {
     logout: () => void;
 };
 
-export const useUserStore = create<UserState>((set) => ({
-    user: DEFAULT_USER,
+import { persist } from 'zustand/middleware';
 
-    setUser: (user) => set({ user }),
+// Get Telegram user ID safely for namespacing stores
+const getUserId = () => {
+    if (typeof window !== 'undefined' && (window as any).Telegram?.WebApp?.initDataUnsafe?.user?.id) {
+        return (window as any).Telegram.WebApp.initDataUnsafe.user.id.toString();
+    }
+    return 'default';
+};
 
-    updateProfile: (data) =>
-        set((state) => ({
-            user: {
-                ...state.user,
-                profile: { ...state.user.profile, ...data },
-            },
-        })),
+export const useUserStore = create<UserState>()(
+    persist(
+        (set) => ({
+            user: DEFAULT_USER,
 
-    updateSettings: (data) =>
-        set((state) => ({
-            user: {
-                ...state.user,
-                settings: { ...state.user.settings, ...data },
-            },
-        })),
+            setUser: (user) => set({ user }),
 
-    completeOnboarding: (data) =>
-        set((state) => ({
-            user: {
-                ...state.user,
-                isOnboarded: true,
-                profile: {
-                    ...state.user.profile,
-                    name: data.name,
-                    age: data.age,
-                    weight: data.weight,
-                    height: data.height,
-                    gender: data.gender,
-                    goal: data.goal,
-                    experience: data.experience || 'beginner',
-                },
-            },
-        })),
+            updateProfile: (data) =>
+                set((state) => ({
+                    user: {
+                        ...state.user,
+                        profile: { ...state.user.profile, ...data },
+                    },
+                })),
 
-    addXP: (amount) =>
-        set((state) => {
-            const newXP = state.user.xp + amount;
-            const xpPerLevel = 500;
-            const newLevel = Math.floor(newXP / xpPerLevel) + 1;
-            return {
-                user: { ...state.user, xp: newXP, level: newLevel },
-            };
+            updateSettings: (data) =>
+                set((state) => ({
+                    user: {
+                        ...state.user,
+                        settings: { ...state.user.settings, ...data },
+                    },
+                })),
+
+            completeOnboarding: (data) =>
+                set((state) => ({
+                    user: {
+                        ...state.user,
+                        isOnboarded: true,
+                        profile: {
+                            ...state.user.profile,
+                            name: data.name,
+                            age: data.age,
+                            weight: data.weight,
+                            height: data.height,
+                            gender: data.gender,
+                            goal: data.goal,
+                            experience: data.experience || 'beginner',
+                        },
+                    },
+                })),
+
+            addXP: (amount) =>
+                set((state) => {
+                    const newXP = state.user.xp + amount;
+                    const xpPerLevel = 500;
+                    const newLevel = Math.floor(newXP / xpPerLevel) + 1;
+                    return {
+                        user: { ...state.user, xp: newXP, level: newLevel },
+                    };
+                }),
+
+            logout: () => set({ user: { ...DEFAULT_USER, isOnboarded: false } }),
         }),
-
-    logout: () => set({ user: { ...DEFAULT_USER, isOnboarded: false } }),
-}));
+        {
+            name: `user-storage-${getUserId()}`, // unique name
+        }
+    )
+);
