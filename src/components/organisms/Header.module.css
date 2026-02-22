@@ -2,8 +2,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px;
-    padding-top: calc(max(env(safe-area-inset-top), 24px) + 20px);
+    padding: 16px 20px;
+    padding-top: calc(var(--tg-content-safe-area-inset-top, var(--tg-safe-area-inset-top, max(env(safe-area-inset-top), 48px))) + 16px);
     width: 100%;
 }
 

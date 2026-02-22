@@ -59,7 +59,6 @@ export function Profile() {
                 </div>
                 <div className={styles.userInfo}>
                     <Text className={styles.name}>{profile.name}</Text>
-                    <Caption className={styles.status}>Junior Frontend Engineer</Caption>
                 </div>
             </div>
 
